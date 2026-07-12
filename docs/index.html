@@ -14,7 +14,7 @@
 <body>
   <nav class="nav-shell" aria-label="主导航">
     <a class="brand" href="#top"><span class="brand-mark">JY</span><span>蒋羽哲升学规划</span></a>
-    <div class="nav-links"><a href="#route">路径判断</a><a href="#wenyuan">文渊备考</a><a href="#gaokao">高中攻略</a></div>
+    <div class="nav-links"><a href="#route">路径判断</a><a href="#wenyuan">文渊备考</a><a href="#gaokao">高中攻略</a><a href="#daily-plan">当日计划</a></div>
     <a class="nav-action" href="#assessment">开始测评</a>
   </nav>
 
@@ -82,6 +82,42 @@
       <div class="strategy-grid">
         <article class="strategy-card strong"><div class="strategy-head"><span>强</span><div><small>STRONG FOUNDATION</small><h3>强基计划</h3></div></div><p>更适合对基础学科有长期兴趣、学科优势突出、愿意接受本研衔接培养的学生。</p><ul><li>核心：高考成绩 + 高校考核</li><li>现在：深耕一门优势学科，保住全科基础</li><li>长期：竞赛思维、学术阅读、研究兴趣</li></ul><div class="fit-check">适配自问：我是否愿意多年研究一个基础问题？</div></article>
         <article class="strategy-card three"><div class="strategy-head"><span>三</span><div><small>TRINITY EVALUATION</small><h3>三位一体</h3></div></div><p>更适合学业稳定、综合素质有真实积累、表达与临场表现较好的浙江考生。</p><ul><li>核心：学业表现 + 综合测试 + 高考成绩</li><li>现在：持续阅读、表达、社会观察与项目经历</li><li>长期：材料整理、专业认知、面试表达</li></ul><div class="fit-check">适配自问：我能否用具体经历证明自己的能力？</div></article>
+      </div>
+    </section>
+
+    <section class="daily-plan-section" id="daily-plan">
+      <div class="daily-plan-inner">
+        <div class="daily-plan-heading">
+          <div><span class="kicker light">DAILY PLANNER</span><h2>当日计划表</h2><p>把今天拆成清晰的时间段。每完成一项，就让进度向前一步。</p></div>
+          <div class="plan-toolbar">
+            <label for="plan-date">计划日期</label>
+            <input id="plan-date" type="date" aria-label="计划日期">
+            <button class="add-plan-button" id="add-plan-button" type="button"><span>＋</span> 添加计划</button>
+          </div>
+        </div>
+
+        <div class="plan-summary" aria-live="polite">
+          <div><small>今日事项</small><strong id="plan-count">0 项</strong></div>
+          <div><small>计划时长</small><strong id="plan-total-minutes">0 分钟</strong></div>
+          <div><small>完成进度</small><strong id="plan-completed">0 / 0</strong></div>
+        </div>
+
+        <form class="plan-form" id="plan-form" hidden>
+          <div class="plan-form-top">
+            <div><small id="plan-form-mode">新增计划</small><h3>安排一个专注时间段</h3></div>
+            <button class="close-plan-form" id="close-plan-form" type="button" aria-label="关闭计划表单">×</button>
+          </div>
+          <div class="plan-form-grid">
+            <label>开始时间<input id="plan-start" type="time" required></label>
+            <label>结束时间<input id="plan-end" type="time" required></label>
+            <label>计划分钟<input id="plan-minutes" type="number" min="1" max="720" step="5" required></label>
+            <label class="plan-title-field">做什么<input id="plan-title" type="text" maxlength="40" placeholder="例如：数学错题整理" required></label>
+            <label class="plan-content-field">具体内容<textarea id="plan-content" rows="3" maxlength="180" placeholder="例如：订正第 3、7、12 题，写清错误原因和正确思路"></textarea></label>
+          </div>
+          <div class="plan-form-actions"><button class="plan-cancel" id="plan-cancel" type="button">取消</button><button class="plan-save" type="submit">保存计划</button></div>
+        </form>
+
+        <div class="plan-list" id="plan-list"></div>
       </div>
     </section>
 

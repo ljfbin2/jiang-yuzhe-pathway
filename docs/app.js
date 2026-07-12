@@ -14,4 +14,66 @@ function renderScores(){document.querySelector('#score-fields').innerHTML=dimens
 function showRoute(key){const r=routes[key];document.querySelector('#route-tag').textContent=r.tag;document.querySelector('#route-title').textContent=r.name;document.querySelector('#route-fit').textContent=r.fit;document.querySelector('#route-points').innerHTML=['重点观察','家庭要确认','不要忽略'].map((x,i)=>`<div><small>${x}</small><strong>${r.points[i]}</strong></div>`).join('');document.querySelectorAll('[data-route]').forEach(b=>b.classList.toggle('active',b.dataset.route===key))}
 function showPrep(type){const rows=type==='written'?written:interview;document.querySelector('#prep-content').innerHTML=rows.map((x,i)=>`<div class="prep-card ${i===0?'featured':''}"><span>0${i+1}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></div>`).join('');document.querySelectorAll('[data-prep]').forEach(b=>b.classList.toggle('active',b.dataset.prep===type))}
 function renderTasks(){document.querySelector('#checklist').innerHTML=tasks.map((t,i)=>`<label><input type="checkbox"><span class="fake-check">${i+1}</span><span>${t}</span></label>`).join('');document.querySelectorAll('#checklist input').forEach(input=>input.addEventListener('change',()=>{const label=input.closest('label');label.classList.toggle('checked',input.checked);label.querySelector('.fake-check').textContent=input.checked?'✓':[...document.querySelectorAll('#checklist input')].indexOf(input)+1;const n=document.querySelectorAll('#checklist input:checked').length;document.querySelector('#progress-bar').style.width=`${n*20}%`;document.querySelector('#progress-text').textContent=`${n} / 5 已完成`}))}
-document.addEventListener('DOMContentLoaded',()=>{renderScores();renderResult();showRoute('wenyuan');showPrep('written');renderTasks();document.querySelectorAll('[data-route]').forEach(b=>b.addEventListener('click',()=>showRoute(b.dataset.route)));document.querySelectorAll('[data-prep]').forEach(b=>b.addEventListener('click',()=>showPrep(b.dataset.prep)))})
+
+const PLAN_STORAGE_KEY='jy-daily-plans-v1';
+let dailyPlans=[];
+function localDateString(date=new Date()){const offset=date.getTimezoneOffset()*60000;return new Date(date.getTime()-offset).toISOString().slice(0,10)}
+function escapeHtml(value=''){return String(value).replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]))}
+function loadDailyPlans(){try{const saved=JSON.parse(localStorage.getItem(PLAN_STORAGE_KEY)||'[]');dailyPlans=Array.isArray(saved)?saved:[]}catch{dailyPlans=[]}}
+function saveDailyPlans(){localStorage.setItem(PLAN_STORAGE_KEY,JSON.stringify(dailyPlans))}
+function minutesBetween(start,end){if(!start||!end)return 0;const [sh,sm]=start.split(':').map(Number);const [eh,em]=end.split(':').map(Number);let minutes=(eh*60+em)-(sh*60+sm);if(minutes<0)minutes+=1440;return minutes}
+function defaultTimes(){const now=new Date();now.setMinutes(Math.ceil(now.getMinutes()/5)*5,0,0);const end=new Date(now.getTime()+30*60000);return{start:`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,end:`${String(end.getHours()).padStart(2,'0')}:${String(end.getMinutes()).padStart(2,'0')}`}}
+function selectedPlanDate(){return document.querySelector('#plan-date').value||localDateString()}
+function renderDailyPlans(){
+  const date=selectedPlanDate();
+  const plans=dailyPlans.filter(plan=>plan.date===date).sort((a,b)=>(a.start||'99:99').localeCompare(b.start||'99:99'));
+  const doneCount=plans.filter(plan=>plan.done).length;
+  const totalMinutes=plans.reduce((sum,plan)=>sum+Number(plan.minutes||0),0);
+  document.querySelector('#plan-count').textContent=`${plans.length} 项`;
+  document.querySelector('#plan-total-minutes').textContent=`${totalMinutes} 分钟`;
+  document.querySelector('#plan-completed').textContent=`${doneCount} / ${plans.length}`;
+  const list=document.querySelector('#plan-list');
+  if(!plans.length){list.innerHTML='<div class="empty-plan"><strong>今天还没有安排</strong>点击“添加计划”，给重要的事情留出时间。</div>';return}
+  list.innerHTML=plans.map(plan=>`<article class="plan-item ${plan.done?'completed':''}" data-id="${escapeHtml(plan.id)}"><div class="plan-time"><strong>${escapeHtml(plan.start)}–${escapeHtml(plan.end)}</strong><small>${plan.done?'已完成':'待完成'}</small></div><div class="plan-item-copy"><h3>${escapeHtml(plan.title)}</h3><p>${escapeHtml(plan.content||'暂无补充内容')}</p></div><span class="plan-duration">${Number(plan.minutes)} 分钟</span><div class="plan-item-actions"><button class="done-button" type="button" data-action="toggle">${plan.done?'恢复':'完成'}</button><button type="button" data-action="edit">编辑</button><button class="delete-button" type="button" data-action="delete">删除</button></div></article>`).join('');
+  list.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>handlePlanAction(button.closest('.plan-item').dataset.id,button.dataset.action)));
+}
+function openPlanForm(plan=null){
+  const form=document.querySelector('#plan-form');
+  form.hidden=false;form.dataset.editId=plan?.id||'';
+  document.querySelector('#plan-form-mode').textContent=plan?'编辑计划':'新增计划';
+  const defaults=defaultTimes();
+  document.querySelector('#plan-start').value=plan?.start||defaults.start;
+  document.querySelector('#plan-end').value=plan?.end||defaults.end;
+  document.querySelector('#plan-minutes').value=plan?.minutes||30;
+  document.querySelector('#plan-title').value=plan?.title||'';
+  document.querySelector('#plan-content').value=plan?.content||'';
+  form.scrollIntoView({behavior:'smooth',block:'center'});
+  document.querySelector('#plan-title').focus();
+}
+function closePlanForm(){const form=document.querySelector('#plan-form');form.hidden=true;form.reset();form.dataset.editId=''}
+function handlePlanAction(id,action){
+  const plan=dailyPlans.find(item=>item.id===id);if(!plan)return;
+  if(action==='toggle'){plan.done=!plan.done;saveDailyPlans();renderDailyPlans();return}
+  if(action==='edit'){openPlanForm(plan);return}
+  if(action==='delete'&&confirm(`确定删除“${plan.title}”吗？`)){dailyPlans=dailyPlans.filter(item=>item.id!==id);saveDailyPlans();renderDailyPlans()}
+}
+function initDailyPlanner(){
+  loadDailyPlans();
+  const dateInput=document.querySelector('#plan-date');dateInput.value=localDateString();
+  dateInput.addEventListener('change',()=>{closePlanForm();renderDailyPlans()});
+  document.querySelector('#add-plan-button').addEventListener('click',()=>openPlanForm());
+  document.querySelector('#close-plan-form').addEventListener('click',closePlanForm);
+  document.querySelector('#plan-cancel').addEventListener('click',closePlanForm);
+  ['#plan-start','#plan-end'].forEach(selector=>document.querySelector(selector).addEventListener('change',()=>{const minutes=minutesBetween(document.querySelector('#plan-start').value,document.querySelector('#plan-end').value);if(minutes)document.querySelector('#plan-minutes').value=minutes}));
+  document.querySelector('#plan-form').addEventListener('submit',event=>{
+    event.preventDefault();
+    const form=event.currentTarget;const editId=form.dataset.editId;
+    const payload={date:selectedPlanDate(),start:document.querySelector('#plan-start').value,end:document.querySelector('#plan-end').value,minutes:Number(document.querySelector('#plan-minutes').value),title:document.querySelector('#plan-title').value.trim(),content:document.querySelector('#plan-content').value.trim()};
+    if(!payload.title||payload.minutes<1)return;
+    if(editId){const current=dailyPlans.find(item=>item.id===editId);if(current)Object.assign(current,payload)}else{dailyPlans.push({id:`plan-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,done:false,...payload})}
+    saveDailyPlans();closePlanForm();renderDailyPlans();
+  });
+  renderDailyPlans();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{renderScores();renderResult();showRoute('wenyuan');showPrep('written');renderTasks();initDailyPlanner();document.querySelectorAll('[data-route]').forEach(b=>b.addEventListener('click',()=>showRoute(b.dataset.route)));document.querySelectorAll('[data-prep]').forEach(b=>b.addEventListener('click',()=>showPrep(b.dataset.prep)))})
