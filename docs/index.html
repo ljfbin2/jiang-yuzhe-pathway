@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>蒋羽哲升学规划｜从创新班到强基与三位一体</title>
+  <meta name="description" content="蒋羽哲个人升学成长路线图：初中创新班、湖创、杭高启正、学军文渊自招/省招，以及高中强基计划与三位一体准备。">
+  <meta property="og:title" content="蒋羽哲升学规划">
+  <meta property="og:description" content="从创新班到强基与三位一体">
+  <meta property="og:image" content="og.png">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <nav class="nav-shell" aria-label="主导航">
+    <a class="brand" href="#top"><span class="brand-mark">JY</span><span>蒋羽哲升学规划</span></a>
+    <div class="nav-links"><a href="#route">路径判断</a><a href="#wenyuan">文渊备考</a><a href="#gaokao">高中攻略</a></div>
+    <a class="nav-action" href="#assessment">开始测评</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span>个人成长路线图 · 2026 版</div>
+        <h1>不只选一所学校，<br>更要选一条<span>适合自己的成长路径。</span></h1>
+        <p>从初中创新班考核，到湖创、杭高启正、学军文渊，再到强基与三位一体——把每一次选择拆成可判断、可准备、可复盘的行动。</p>
+        <div class="hero-actions"><a class="primary-button" href="#assessment">测一测适配路径 <b>→</b></a><a class="text-button" href="#roadmap">查看完整路线</a></div>
+        <div class="hero-note"><span>i</span>本站用于家庭规划与训练参考，不替代学校当年招生简章。</div>
+      </div>
+      <div class="hero-board">
+        <div class="board-top"><div><small>当前任务</small><strong>找到优势，保留选择</strong></div><span class="status-dot">规划中</span></div>
+        <div class="route-line">
+          <div class="route-node done"><span>01</span><strong>能力底座</strong><small>语数英科 · 学习习惯</small></div>
+          <div class="route-node active"><span>02</span><strong>初中路径</strong><small>创新班 · 启正 · 文渊</small></div>
+          <div class="route-node"><span>03</span><strong>高中发展</strong><small>竞赛 · 综合素质</small></div>
+          <div class="route-node"><span>04</span><strong>大学升学</strong><small>强基 · 三位一体</small></div>
+        </div>
+        <div class="board-quote">“先把自己变成有选择的人，再做选择。”</div>
+      </div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="section-heading"><div><span class="kicker">LONG-TERM MAP</span><h2>五段式成长路线</h2></div><p>每一阶段只抓一个核心任务，持续积累比短期突击更可靠。</p></div>
+      <div class="stage-grid">
+        <article><b>01</b><small>现在—六年级</small><h3>底层能力</h3><p>先把计算、阅读、科学观察和表达习惯做扎实，不用过早刷偏题。</p></article>
+        <article><b>02</b><small>初一</small><h3>适应与诊断</h3><p>稳定校内节奏，建立错题复盘系统，识别真正有优势的学科。</p></article>
+        <article><b>03</b><small>初二</small><h3>方向强化</h3><p>围绕目标路径专题训练，同时保留一次调整方向的窗口。</p></article>
+        <article><b>04</b><small>初三</small><h3>考核冲刺</h3><p>校内成绩、中考基础、特色考核三线并行，避免押单一路径。</p></article>
+        <article><b>05</b><small>高中</small><h3>强基 / 三一</h3><p>根据学术志趣、选科与综合素质积累，形成长期升学组合。</p></article>
+      </div>
+    </section>
+
+    <section class="assessment" id="assessment">
+      <div class="assessment-inner">
+        <div>
+          <span class="kicker">QUICK ASSESSMENT</span><h2>5 分钟路径适配测评</h2>
+          <p class="muted">请按“最近三个月的稳定表现”评分，而不是最好的一次表现。</p>
+          <div class="score-fields" id="score-fields"></div>
+        </div>
+        <aside class="result-card" aria-live="polite">
+          <small>当前优先建议</small><span class="route-pill" id="result-tag">拔尖挑战型</span>
+          <h3 id="result-title">学军文渊自招 / 省招</h3><p id="result-fit"></p>
+          <hr><strong>接下来 30 天</strong><ul id="result-list"></ul>
+          <p class="result-tip">测评用于确定备考重心，不等于录取预测。建议每学期更新一次。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="route">
+      <div class="section-heading"><div><span class="kicker">ROUTE COMPARISON</span><h2>三条路径，怎么判断？</h2></div><p>不做“名气排序”，只看培养方式、能力匹配和家庭承受度。</p></div>
+      <div class="route-tabs" role="tablist"><button data-route="huchuang">湖创创新班路径</button><button data-route="qizheng">杭高启正路径</button><button class="active" data-route="wenyuan">学军文渊自招 / 省招</button></div>
+      <div class="route-detail"><div><span class="route-pill" id="route-tag"></span><h3 id="route-title"></h3><p class="lead" id="route-fit"></p></div><div class="comparison-grid" id="route-points"></div></div>
+    </section>
+
+    <section class="wenyuan" id="wenyuan">
+      <div class="wenyuan-intro"><span class="kicker light">FOCUS PLAN</span><h2>学军文渊自招 / 省招<br>笔试与面试双线准备</h2><p>以能力迁移为核心：笔试看思考过程，面试看表达、反应和真实的学习兴趣。</p><div class="prep-switch"><button class="active" data-prep="written">笔试准备</button><button data-prep="interview">面试准备</button></div></div>
+      <div class="prep-content" id="prep-content"></div>
+    </section>
+
+    <section class="section" id="gaokao">
+      <div class="section-heading"><div><span class="kicker">HIGH SCHOOL STRATEGY</span><h2>强基与三位一体，不是同一条赛道</h2></div><p>高中阶段再做最终选择，初中阶段先积累可迁移的学术能力和真实经历。</p></div>
+      <div class="strategy-grid">
+        <article class="strategy-card strong"><div class="strategy-head"><span>强</span><div><small>STRONG FOUNDATION</small><h3>强基计划</h3></div></div><p>更适合对基础学科有长期兴趣、学科优势突出、愿意接受本研衔接培养的学生。</p><ul><li>核心：高考成绩 + 高校考核</li><li>现在：深耕一门优势学科，保住全科基础</li><li>长期：竞赛思维、学术阅读、研究兴趣</li></ul><div class="fit-check">适配自问：我是否愿意多年研究一个基础问题？</div></article>
+        <article class="strategy-card three"><div class="strategy-head"><span>三</span><div><small>TRINITY EVALUATION</small><h3>三位一体</h3></div></div><p>更适合学业稳定、综合素质有真实积累、表达与临场表现较好的浙江考生。</p><ul><li>核心：学业表现 + 综合测试 + 高考成绩</li><li>现在：持续阅读、表达、社会观察与项目经历</li><li>长期：材料整理、专业认知、面试表达</li></ul><div class="fit-check">适配自问：我能否用具体经历证明自己的能力？</div></article>
+      </div>
+    </section>
+
+    <section class="section action-section">
+      <div><span class="kicker">THIS WEEK</span><h2>把规划变成本周行动</h2><p class="muted">先完成五件小事。全部做完后，再增加难度，不增加数量。</p><div class="progress"><span id="progress-bar"></span></div><strong id="progress-text">0 / 5 已完成</strong></div>
+      <div class="checklist" id="checklist"></div>
+    </section>
+
+    <section class="section policy"><div><span class="kicker">POLICY CHECK</span><h2>重要信息，只认当年官方通知</h2></div><p>学校名称、招生范围、名额、费用、报名时间、考核方式与录取规则都可能调整。正式报名前，请逐项核验。</p><div class="source-links"><a href="https://edu.hangzhou.gov.cn/col/col1229203571/index.html" target="_blank" rel="noreferrer">杭州市教育局招生信息 <span>↗</span></a><a href="https://www.zjzs.net/" target="_blank" rel="noreferrer">浙江省教育考试院 <span>↗</span></a><a href="https://gaokao.chsi.com.cn/" target="_blank" rel="noreferrer">教育部阳光高考平台 <span>↗</span></a></div></section>
+  </main>
+  <footer><div class="brand"><span class="brand-mark">JY</span><span>蒋羽哲升学规划</span></div><p>方向可以调整，成长不能停止。</p><small>家庭规划参考 · 2026 年 7 月</small></footer>
+</body>
+</html>
